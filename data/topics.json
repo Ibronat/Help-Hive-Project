@@ -1,0 +1,74 @@
+[
+  {
+    "id": 1,
+    "name": "Technology",
+    "icon": "💻",
+    "color": "#6C47FF",
+    "description": "Coding, gadgets, software, and everything tech-related. Ask the people who build it.",
+    "postCount": 1240,
+    "followerCount": 3200
+  },
+  {
+    "id": 2,
+    "name": "Health & Wellness",
+    "icon": "🩺",
+    "color": "#00D4C8",
+    "description": "Physical health, fitness, sleep, and everyday wellness questions answered by real professionals.",
+    "postCount": 860,
+    "followerCount": 2100
+  },
+  {
+    "id": 3,
+    "name": "Career & Jobs",
+    "icon": "💼",
+    "color": "#FF8C42",
+    "description": "Resumes, interviews, internships, and figuring out what to do with your work life.",
+    "postCount": 690,
+    "followerCount": 1700
+  },
+  {
+    "id": 4,
+    "name": "Relationships",
+    "icon": "❤️",
+    "color": "#F43F8C",
+    "description": "Friendships, family, dating, and the messy human stuff in between.",
+    "postCount": 540,
+    "followerCount": 1400
+  },
+  {
+    "id": 5,
+    "name": "Personal Finance",
+    "icon": "💰",
+    "color": "#22C55E",
+    "description": "Budgeting, saving, debt, and money questions nobody taught you in school.",
+    "postCount": 770,
+    "followerCount": 1900
+  },
+  {
+    "id": 6,
+    "name": "Mental Health",
+    "icon": "🧠",
+    "color": "#8B5CF6",
+    "description": "Stress, anxiety, burnout, and support from people who understand.",
+    "postCount": 910,
+    "followerCount": 2300
+  },
+  {
+    "id": 7,
+    "name": "Creative Skills",
+    "icon": "🎨",
+    "color": "#F59E0B",
+    "description": "Art, writing, music, and finding your own creative voice.",
+    "postCount": 430,
+    "followerCount": 1100
+  },
+  {
+    "id": 8,
+    "name": "Life Skills",
+    "icon": "🛠️",
+    "color": "#3B82F6",
+    "description": "The everyday-adulting stuff nobody officially teaches you.",
+    "postCount": 360,
+    "followerCount": 950
+  }
+]

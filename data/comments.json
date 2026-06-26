@@ -1,0 +1,135 @@
+{
+  "1": [
+    {
+      "id": 101,
+      "authorId": 2,
+      "type": "answer",
+      "text": "Start with JavaScript or Python, pick ONE, and ignore everything else for the first month. Most beginners fail not because they pick the wrong language, but because they switch languages every two weeks chasing the 'perfect' one. Build a tiny project (a to-do list, a simple calculator) before you even think about frameworks.",
+      "upvotes": 64,
+      "timestamp": "2026-06-24T10:02:00Z",
+      "replies": [
+        {
+          "id": 1011,
+          "authorId": 8,
+          "type": "comment",
+          "text": "This is exactly the advice I needed. I've restarted three times already because of this.",
+          "upvotes": 12,
+          "timestamp": "2026-06-24T10:30:00Z",
+          "replies": []
+        }
+      ]
+    },
+    {
+      "id": 102,
+      "authorId": 7,
+      "type": "comment",
+      "text": "Following this — I'm in the exact same boat at 20.",
+      "upvotes": 8,
+      "timestamp": "2026-06-24T11:15:00Z",
+      "replies": []
+    }
+  ],
+  "2": [
+    {
+      "id": 201,
+      "authorId": 8,
+      "type": "comment",
+      "text": "The part about the 'boring, specific roadmap' instead of vague motivation is so refreshing. Most advice online is just vibes.",
+      "upvotes": 41,
+      "timestamp": "2026-06-22T15:00:00Z",
+      "replies": [
+        {
+          "id": 2011,
+          "authorId": 2,
+          "type": "comment",
+          "text": "Appreciate that — I almost gave up writing this because I thought it was too 'unsexy' compared to typical success posts.",
+          "upvotes": 22,
+          "timestamp": "2026-06-22T15:40:00Z",
+          "replies": []
+        }
+      ]
+    },
+    {
+      "id": 202,
+      "authorId": 3,
+      "type": "answer",
+      "text": "Curious how many hours a day you were realistically putting in during those 14 months while also working retail. The time math is the part I always struggle to picture.",
+      "upvotes": 19,
+      "timestamp": "2026-06-22T16:20:00Z",
+      "replies": []
+    }
+  ],
+  "5": [
+    {
+      "id": 501,
+      "authorId": 5,
+      "type": "answer",
+      "text": "40 rejections with only 3 interviews usually points to the resume, not the interviews themselves — the resume's job is just to get you in the room. Common culprits: generic bullet points that describe duties instead of results, and not tailoring keywords to each posting. Happy to look at specifics if you want to share more detail.",
+      "upvotes": 53,
+      "timestamp": "2026-06-23T17:05:00Z",
+      "replies": [
+        {
+          "id": 5011,
+          "authorId": 3,
+          "type": "comment",
+          "text": "That makes a lot of sense actually — I've been using basically the same resume for every single application.",
+          "upvotes": 9,
+          "timestamp": "2026-06-23T17:40:00Z",
+          "replies": []
+        }
+      ]
+    }
+  ],
+  "9": [
+    {
+      "id": 901,
+      "authorId": 6,
+      "type": "answer",
+      "text": "Start absurdly small: open a separate savings account today, even if you only put $20 in it, and automate a transfer the day you get paid before you see the money in checking. The habit matters more than the amount at first. Worry about credit cards and investing later — get the saving reflex working first.",
+      "upvotes": 47,
+      "timestamp": "2026-06-25T09:30:00Z",
+      "replies": []
+    },
+    {
+      "id": 902,
+      "authorId": 8,
+      "type": "comment",
+      "text": "The 'automate it before you see the money' trick is underrated. It's the only thing that's ever worked for me.",
+      "upvotes": 15,
+      "timestamp": "2026-06-25T10:00:00Z",
+      "replies": []
+    }
+  ],
+  "11": [
+    {
+      "id": 1101,
+      "authorId": 4,
+      "type": "answer",
+      "text": "What you're describing has a name: social comparison, and it's amplified hugely by algorithmic feeds showing curated highlights. A concrete technique: every time you catch yourself comparing, name out loud what you're actually seeing — 'a 4-second highlight, not a life.' It sounds simple but it interrupts the automatic spiral.",
+      "upvotes": 72,
+      "timestamp": "2026-06-24T21:00:00Z",
+      "replies": [
+        {
+          "id": 11011,
+          "authorId": 3,
+          "type": "comment",
+          "text": "Naming it out loud feels silly but I'm going to actually try this.",
+          "upvotes": 14,
+          "timestamp": "2026-06-24T21:30:00Z",
+          "replies": []
+        }
+      ]
+    }
+  ],
+  "13": [
+    {
+      "id": 1301,
+      "authorId": 7,
+      "type": "answer",
+      "text": "Style isn't something you find by searching for it — it's a byproduct of volume. You're currently copying because you haven't drawn enough yet to have your own instincts kick in. Keep drawing your influences on purpose for a while, but stop picking ONE influence; mix three or four. The overlap of your influences IS your style.",
+      "upvotes": 38,
+      "timestamp": "2026-06-23T13:10:00Z",
+      "replies": []
+    }
+  ]
+}
