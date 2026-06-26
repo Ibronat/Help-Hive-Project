@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<!--
+  ============================================================
+  HelpHive — post.html (POST DETAIL + COMMENTS)
+  ============================================================
+  This page shows ONE full post with all its comments.
+  When a user clicks a post card on index.html, they land here.
+
+  BEGINNER TIP:
+  We use JavaScript to read a "postId" from the URL.
+  Example URL: post.html?id=3
+  JS reads the "?id=3" part and loads the right post.
+  ============================================================
+-->
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HelpHive — Post</title>
+  <meta name="description" content="Read and reply to community posts on HelpHive." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/reset.css" />
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+</head>
+
+<body>
+
+  <!-- NAVBAR (same on every page) -->
+  <nav class="navbar">
+    <div class="navbar__inner">
+      <a href="index.html" class="navbar__logo">
+        <span class="navbar__logo-icon" aria-hidden="true">⬡</span>
+        <span class="navbar__logo-text">HelpHive</span>
+      </a>
+      <div class="navbar__search">
+        <div class="search-bar" role="search">
+          <span class="search-bar__icon" aria-hidden="true">🔍</span>
+          <input type="text" class="search-bar__input" placeholder="Search HelpHive..." aria-label="Search" id="searchInput" />
+        </div>
+      </div>
+      <div class="navbar__actions">
+        <a href="explore.html" class="navbar__link">Explore</a>
+        <a href="topic.html" class="navbar__link">Topics</a>
+        <button class="btn btn--icon" id="themeToggle" aria-label="Toggle dark mode"><span id="themeIcon">🌙</span></button>
+        <div class="navbar__auth" id="navAuthButtons">
+          <a href="login.html" class="btn btn--ghost">Sign in</a>
+          <a href="signup.html" class="btn btn--primary">Join free</a>
+        </div>
+        <div class="navbar__user hidden" id="navUserMenu">
+          <a href="create-post.html" class="btn btn--accent">+ Ask</a>
+          <button class="navbar__avatar" id="avatarBtn" aria-label="Open user menu"><span id="avatarLetter">U</span></button>
+          <div class="dropdown hidden" id="userDropdown">
+            <a href="profile.html" class="dropdown__item">My Profile</a>
+            <a href="profile.html#saved" class="dropdown__item">Saved Posts</a>
+            <div class="dropdown__divider"></div>
+            <button class="dropdown__item dropdown__item--danger" id="logoutBtn">Sign out</button>
+          </div>
+        </div>
+        <button class="navbar__hamburger" id="hamburgerBtn" aria-label="Open menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+    <div class="navbar__mobile-menu hidden" id="mobileMenu">
+      <a href="explore.html" class="navbar__mobile-link">Explore</a>
+      <a href="topic.html" class="navbar__mobile-link">Topics</a>
+      <a href="login.html" class="navbar__mobile-link">Sign in</a>
+      <a href="signup.html" class="navbar__mobile-link navbar__mobile-link--accent">Join free</a>
+    </div>
+  </nav>
+
+  <!-- BREADCRUMB — shows the user where they are -->
+  <div class="breadcrumb container">
+    <!-- aria-label makes this accessible -->
+    <nav aria-label="Breadcrumb">
+      <a href="index.html" class="breadcrumb__link">Home</a>
+      <span class="breadcrumb__sep" aria-hidden="true">›</span>
+      <!-- Topic name is filled by JavaScript -->
+      <a href="topic.html" class="breadcrumb__link" id="breadcrumbTopic">Topic</a>
+      <span class="breadcrumb__sep" aria-hidden="true">›</span>
+      <span class="breadcrumb__current" id="breadcrumbTitle">Post</span>
+    </nav>
+  </div>
+
+  <!-- MAIN CONTENT: Post + Sidebar -->
+  <main class="container layout--post">
+
+    <!-- ── LEFT: POST DETAIL ─────────────────────────────── -->
+    <article class="post-detail" id="postDetail" aria-label="Post content">
+
+      <!-- POST HEADER — filled by JavaScript -->
+      <header class="post-detail__header">
+        <!-- Topic tag pill -->
+        <a href="topic.html" class="topic-tag" id="postTopic">Loading...</a>
+
+        <!-- Post title — JS fills this in -->
+        <h1 class="post-detail__title" id="postTitle">Loading post...</h1>
+
+        <!-- Author info row -->
+        <div class="post-meta">
+          <!-- Author avatar circle -->
+          <div class="post-meta__avatar" id="postAuthorAvatar" aria-hidden="true">U</div>
+          <div class="post-meta__info">
+            <!-- Author name, links to their profile -->
+            <a href="profile.html" class="post-meta__author" id="postAuthorName">Loading...</a>
+            <!-- Expert badge — hidden unless author is an expert -->
+            <span class="badge badge--expert hidden" id="postExpertBadge">⭐ Expert</span>
+          </div>
+          <!-- Time ago (e.g. "3 hours ago") -->
+          <time class="post-meta__time" id="postTime">...</time>
+        </div>
+      </header>
+
+      <!-- POST BODY — the actual content of the post -->
+      <div class="post-detail__body" id="postBody">
+        <!-- JavaScript inserts the post's text here -->
+      </div>
+
+      <!-- POST TAGS — keywords related to the post -->
+      <div class="post-detail__tags" id="postTags">
+        <!-- JS inserts <span class="tag">keyword</span> items here -->
+      </div>
+
+      <!-- POST ACTIONS: Vote, Save, Share, Report -->
+      <div class="post-detail__actions">
+
+        <!-- Vote buttons -->
+        <div class="vote-group">
+          <button class="vote-btn vote-btn--up" id="postUpvote" aria-label="Upvote this post">
+            ▲
+          </button>
+          <!-- Vote count number — updated by JS -->
+          <span class="vote-count" id="postVoteCount">0</span>
+          <button class="vote-btn vote-btn--down" id="postDownvote" aria-label="Downvote this post">
+            ▼
+          </button>
+        </div>
+
+        <!-- Other action buttons -->
+        <button class="btn btn--ghost btn--small" id="savePostBtn">🔖 Save</button>
+        <button class="btn btn--ghost btn--small" id="sharePostBtn">📤 Share</button>
+        <button class="btn btn--ghost btn--small btn--danger" id="reportPostBtn">🚩 Report</button>
+      </div>
+    </article>
+
+    <!-- ── COMMENTS SECTION ───────────────────────────────── -->
+    <section class="comments-section" aria-label="Comments">
+
+      <h2 class="comments-section__title">
+        <!-- Comment count is filled by JS -->
+        <span id="commentCount">0</span> Answers & Comments
+      </h2>
+
+      <!-- Reply Box — the form to write a new comment -->
+      <!-- NOTE: We do NOT use <form> here — JS handles the submit -->
+      <div class="reply-box" id="replyBox">
+        <div class="reply-box__avatar" id="replyAvatar" aria-hidden="true">?</div>
+        <div class="reply-box__content">
+          <textarea
+            class="reply-box__input"
+            id="replyInput"
+            placeholder="Share your answer or experience..."
+            aria-label="Write a comment"
+            rows="3"
+          ></textarea>
+          <div class="reply-box__actions">
+            <!-- Type toggle: Answer vs Comment -->
+            <div class="reply-type-toggle">
+              <button class="reply-type-btn reply-type-btn--active" data-type="answer">Answer</button>
+              <button class="reply-type-btn" data-type="comment">Comment</button>
+            </div>
+            <button class="btn btn--primary" id="submitReply" disabled>Post reply</button>
+          </div>
+        </div>
+      </div>
+      <!-- END REPLY BOX -->
+
+      <!-- COMMENT LIST — filled by JavaScript from posts.json -->
+      <div class="comment-list" id="commentList" aria-live="polite">
+        <!-- JS INSERTS COMMENT ITEMS HERE -->
+        <!-- Each comment has this structure (created in posts.js):
+          <div class="comment">
+            <div class="comment__vote">...</div>
+            <div class="comment__body">
+              <div class="comment__header">
+                avatar | name | expert badge | time
+              </div>
+              <p class="comment__text">...</p>
+              <div class="comment__actions">
+                reply | upvote | share buttons
+              </div>
+              <div class="comment__replies">
+                nested replies go here (same structure)
+              </div>
+            </div>
+          </div>
+        -->
+      </div>
+    </section>
+
+    <!-- ── RIGHT SIDEBAR ─────────────────────────────────── -->
+    <aside class="sidebar sidebar--post" aria-label="Post sidebar">
+
+      <!-- Author Card -->
+      <div class="sidebar-widget reveal" id="authorCard">
+        <h2 class="sidebar-widget__title">👤 About the Author</h2>
+        <!-- Filled by JavaScript -->
+        <div class="author-mini" id="authorMini">
+          <div class="author-mini__avatar" id="authorMiniAvatar" aria-hidden="true">U</div>
+          <div class="author-mini__info">
+            <a href="profile.html" class="author-mini__name" id="authorMiniName">...</a>
+            <span class="badge badge--expert hidden" id="authorMiniExpert">⭐ Expert</span>
+            <p class="author-mini__field" id="authorMiniField"></p>
+          </div>
+        </div>
+        <div class="author-mini__stats">
+          <div class="author-mini__stat">
+            <span class="author-mini__stat-num" id="authorKarma">0</span>
+            <span class="author-mini__stat-label">karma</span>
+          </div>
+          <div class="author-mini__stat">
+            <span class="author-mini__stat-num" id="authorPosts">0</span>
+            <span class="author-mini__stat-label">posts</span>
+          </div>
+        </div>
+        <a href="profile.html" class="btn btn--ghost btn--full">View profile</a>
+      </div>
+
+      <!-- Related Posts -->
+      <div class="sidebar-widget reveal">
+        <h2 class="sidebar-widget__title">🔗 Related Posts</h2>
+        <ul class="related-list" id="relatedPosts">
+          <!-- JS INSERTS RELATED POST LINKS HERE -->
+        </ul>
+      </div>
+
+    </aside>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="footer__brand">
+        <span class="footer__logo">⬡ HelpHive</span>
+        <p class="footer__tagline">Help someone today. Be helped tomorrow.</p>
+      </div>
+      <nav class="footer__links" aria-label="Footer navigation">
+        <a href="explore.html">Explore</a>
+        <a href="topic.html">Topics</a>
+        <a href="login.html">Sign in</a>
+        <a href="signup.html">Join</a>
+      </nav>
+      <p class="footer__copy">© 2025 HelpHive. Made with ❤️ for the community.</p>
+    </div>
+  </footer>
+
+  <!-- SHARE MODAL — hidden until "Share" is clicked -->
+  <!--
+    A modal is a pop-up overlay.
+    class="modal hidden" means it's invisible until JS removes "hidden".
+    role="dialog" tells screen readers this is a dialog box.
+  -->
+  <div class="modal hidden" id="shareModal" role="dialog" aria-modal="true" aria-labelledby="shareModalTitle">
+    <div class="modal__backdrop" id="shareModalBackdrop"></div>
+    <div class="modal__box">
+      <div class="modal__header">
+        <h2 class="modal__title" id="shareModalTitle">Share this post</h2>
+        <button class="modal__close" id="closeShareModal" aria-label="Close modal">✕</button>
+      </div>
+      <div class="modal__body">
+        <!-- Copy link field -->
+        <div class="share-link-box">
+          <input type="text" class="share-link-box__input" id="shareLinkInput" readonly aria-label="Post link" />
+          <button class="btn btn--primary" id="copyLinkBtn">Copy</button>
+        </div>
+        <!-- Social share buttons (links open in new tab) -->
+        <div class="share-buttons">
+          <a href="#" class="btn btn--ghost share-btn" id="shareTwitter" target="_blank" rel="noopener">🐦 Twitter</a>
+          <a href="#" class="btn btn--ghost share-btn" id="shareWhatsApp" target="_blank" rel="noopener">💬 WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-container" id="toastContainer" aria-live="assertive" aria-atomic="true"></div>
+
+  <script src="js/app.js"></script>
+  <script src="js/posts.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>

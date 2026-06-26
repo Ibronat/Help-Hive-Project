@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<!--
+  ============================================================
+  HelpHive — login.html (SIGN IN PAGE)
+  ============================================================
+  A centered card layout for signing in.
+  We use localStorage to simulate a real login system.
+  No real server is needed — this is all frontend JS.
+
+  BEGINNER TIP:
+  localStorage is like a small notebook the browser keeps.
+  We write the user's info there when they "log in",
+  and read it on other pages to know who's signed in.
+  ============================================================
+-->
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HelpHive — Sign In</title>
+  <meta name="description" content="Sign in to HelpHive." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/reset.css" />
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+</head>
+
+<body class="auth-page">
+  <!--
+    class="auth-page" on <body> tells CSS to center
+    everything vertically and use a special background.
+  -->
+
+  <!-- Minimal navbar for auth pages — just logo + theme toggle -->
+  <nav class="navbar navbar--minimal">
+    <div class="navbar__inner">
+      <a href="index.html" class="navbar__logo">
+        <span class="navbar__logo-icon" aria-hidden="true">⬡</span>
+        <span class="navbar__logo-text">HelpHive</span>
+      </a>
+      <div class="navbar__actions">
+        <button class="btn btn--icon" id="themeToggle" aria-label="Toggle dark mode">
+          <span id="themeIcon">🌙</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- AUTH CARD — centered on the page -->
+  <main class="auth-main">
+    <div class="auth-card">
+
+      <!-- CARD HEADER -->
+      <div class="auth-card__header">
+        <span class="auth-card__icon" aria-hidden="true">⬡</span>
+        <h1 class="auth-card__title">Welcome back</h1>
+        <p class="auth-card__sub">Sign in to continue to HelpHive</p>
+      </div>
+
+      <!-- LOGIN FORM -->
+      <!--
+        We use a <div> instead of <form> because we handle
+        submission with JavaScript, not a server form submit.
+        The novalidate attribute would normally disable browser
+        validation — JS handles it manually instead.
+      -->
+      <div class="auth-form" id="loginForm" role="form" aria-label="Sign in form">
+
+        <!-- Email Field -->
+        <div class="form-group">
+          <label class="form-label" for="loginEmail">Email address</label>
+          <input
+            type="email"
+            class="form-input"
+            id="loginEmail"
+            placeholder="you@example.com"
+            autocomplete="email"
+            aria-required="true"
+            aria-describedby="loginEmailError"
+          />
+          <!-- Error message — shown by JS when email is invalid -->
+          <span class="form-error hidden" id="loginEmailError" role="alert"></span>
+        </div>
+
+        <!-- Password Field -->
+        <div class="form-group">
+          <div class="form-label-row">
+            <label class="form-label" for="loginPassword">Password</label>
+            <!-- Forgot password link -->
+            <a href="#" class="form-label-link">Forgot password?</a>
+          </div>
+          <div class="form-input-wrap">
+            <input
+              type="password"
+              class="form-input"
+              id="loginPassword"
+              placeholder="Enter your password"
+              autocomplete="current-password"
+              aria-required="true"
+              aria-describedby="loginPasswordError"
+            />
+            <!-- Show/hide password toggle -->
+            <button
+              type="button"
+              class="form-input-toggle"
+              id="loginPasswordToggle"
+              aria-label="Show password"
+            >👁️</button>
+          </div>
+          <span class="form-error hidden" id="loginPasswordError" role="alert"></span>
+        </div>
+
+        <!-- Remember me checkbox -->
+        <div class="form-check">
+          <input type="checkbox" class="form-check__input" id="rememberMe" />
+          <label class="form-check__label" for="rememberMe">Remember me</label>
+        </div>
+
+        <!-- Submit Button -->
+        <button class="btn btn--primary btn--full btn--large" id="loginSubmit">
+          Sign in
+        </button>
+
+        <!-- General error (wrong credentials, etc.) -->
+        <div class="auth-error hidden" id="loginError" role="alert">
+          <span class="auth-error__icon" aria-hidden="true">⚠️</span>
+          <span id="loginErrorMsg">Invalid email or password.</span>
+        </div>
+
+        <!-- Divider -->
+        <div class="auth-divider">
+          <span>or continue with</span>
+        </div>
+
+        <!-- Social Login Buttons (simulated — not real OAuth) -->
+        <div class="social-btns">
+          <button class="btn btn--social" id="googleLogin">
+            <span aria-hidden="true">🌐</span> Google
+          </button>
+          <button class="btn btn--social" id="githubLogin">
+            <span aria-hidden="true">🐙</span> GitHub
+          </button>
+        </div>
+
+      </div>
+      <!-- END LOGIN FORM -->
+
+      <!-- Switch to signup -->
+      <p class="auth-switch">
+        Don't have an account?
+        <a href="signup.html" class="auth-switch__link">Join HelpHive free</a>
+      </p>
+
+    </div>
+    <!-- END AUTH CARD -->
+  </main>
+
+  <div class="toast-container" id="toastContainer" aria-live="assertive" aria-atomic="true"></div>
+
+  <script src="js/app.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>

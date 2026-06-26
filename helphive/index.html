@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<!--
+  ============================================================
+  HelpHive — index.html (HOME FEED)
+  ============================================================
+  This is the MAIN page users see when they visit the site.
+  It shows a feed of posts from the community.
+
+  BEGINNER TIP:
+  Every HTML file starts with <!DOCTYPE html> — this tells
+  the browser "this is a modern HTML5 page."
+
+  The <html lang="en"> tag wraps EVERYTHING on the page.
+  data-theme="light" is used by our CSS to switch between
+  light and dark mode. JavaScript will change it to "dark".
+  ============================================================
+-->
+
+<head>
+  <!-- ── META TAGS ───────────────────────────────────────────
+    Meta tags go in <head> — they are NOT visible on the page.
+    They give the browser and search engines info about the page.
+  ──────────────────────────────────────────────────────────── -->
+
+  <!-- Tells the browser to use modern Unicode characters (emojis, special letters, etc.) -->
+  <meta charset="UTF-8" />
+
+  <!-- Makes the page look correct on phones (not zoomed out) -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- The text shown in the browser tab -->
+  <title>HelpHive — Home</title>
+
+  <!-- A short description for search engines like Google -->
+  <meta name="description" content="HelpHive — where young people find real answers from real experts." />
+
+  <!-- ── GOOGLE FONTS ────────────────────────────────────────
+    We load two fonts from Google:
+    - "Plus Jakarta Sans" → used for headings (bold, modern)
+    - "Inter" → used for body text (clean, readable)
+    These two <link> tags must come BEFORE our CSS files.
+  ──────────────────────────────────────────────────────────── -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- ── CSS FILES ───────────────────────────────────────────
+    We load our CSS in a specific order — each file builds on the previous one:
+    1. reset.css      → removes all default browser styles
+    2. variables.css  → defines our colors, sizes, fonts as variables
+    3. components.css → styles for buttons, cards, navbar, etc.
+    4. animations.css → all hover effects and transitions
+  ──────────────────────────────────────────────────────────── -->
+  <link rel="stylesheet" href="css/reset.css" />
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+</head>
+
+<body>
+  <!-- ══════════════════════════════════════════════════════
+    NAVBAR — appears on EVERY page
+    The <nav> tag is for navigation menus.
+    class="navbar" means CSS will style it using .navbar rules.
+  ══════════════════════════════════════════════════════════ -->
+  <nav class="navbar">
+    <div class="navbar__inner">
+
+      <!-- LEFT SIDE: Logo -->
+      <a href="index.html" class="navbar__logo">
+        <!-- The logo icon (a honeycomb shape using text/emoji as placeholder) -->
+        <span class="navbar__logo-icon" aria-hidden="true">⬡</span>
+        <span class="navbar__logo-text">HelpHive</span>
+      </a>
+
+      <!-- CENTER: Search Bar -->
+      <div class="navbar__search">
+        <!-- role="search" tells screen readers this is a search area -->
+        <div class="search-bar" role="search">
+          <span class="search-bar__icon" aria-hidden="true">🔍</span>
+          <input
+            type="text"
+            class="search-bar__input"
+            placeholder="Search questions, topics, experts..."
+            aria-label="Search HelpHive"
+            id="searchInput"
+          />
+        </div>
+      </div>
+
+      <!-- RIGHT SIDE: Navigation Links + Buttons -->
+      <div class="navbar__actions">
+        <a href="explore.html" class="navbar__link">Explore</a>
+        <a href="topic.html" class="navbar__link">Topics</a>
+
+        <!-- Dark mode toggle button -->
+        <!-- aria-label explains the button to screen readers (no visible text) -->
+        <button class="btn btn--icon" id="themeToggle" aria-label="Toggle dark mode">
+          <span id="themeIcon">🌙</span>
+        </button>
+
+        <!-- This shows when NOT logged in -->
+        <div class="navbar__auth" id="navAuthButtons">
+          <a href="login.html" class="btn btn--ghost">Sign in</a>
+          <a href="signup.html" class="btn btn--primary">Join free</a>
+        </div>
+
+        <!-- This shows when logged IN (hidden by default, JS will show it) -->
+        <div class="navbar__user hidden" id="navUserMenu">
+          <a href="create-post.html" class="btn btn--accent">+ Ask</a>
+          <button class="navbar__avatar" id="avatarBtn" aria-label="Open user menu">
+            <!-- The avatar letter is set by JavaScript from the user's name -->
+            <span id="avatarLetter">U</span>
+          </button>
+          <!-- Dropdown menu (shown when avatar is clicked) -->
+          <div class="dropdown hidden" id="userDropdown">
+            <a href="profile.html" class="dropdown__item">My Profile</a>
+            <a href="profile.html#saved" class="dropdown__item">Saved Posts</a>
+            <div class="dropdown__divider"></div>
+            <button class="dropdown__item dropdown__item--danger" id="logoutBtn">Sign out</button>
+          </div>
+        </div>
+
+        <!-- Hamburger button — only visible on mobile screens -->
+        <button class="navbar__hamburger" id="hamburgerBtn" aria-label="Open menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile menu — slides down on small screens -->
+    <div class="navbar__mobile-menu hidden" id="mobileMenu">
+      <a href="explore.html" class="navbar__mobile-link">Explore</a>
+      <a href="topic.html" class="navbar__mobile-link">Topics</a>
+      <a href="login.html" class="navbar__mobile-link">Sign in</a>
+      <a href="signup.html" class="navbar__mobile-link navbar__mobile-link--accent">Join free</a>
+    </div>
+  </nav>
+  <!-- END NAVBAR -->
+
+  <!-- ══════════════════════════════════════════════════════
+    HERO BANNER — shown only on the home page
+    A welcoming section at the top of the feed
+  ══════════════════════════════════════════════════════════ -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero__content">
+        <h1 class="hero__title">
+          Real answers from <span class="hero__highlight">real experts.</span>
+        </h1>
+        <p class="hero__subtitle">
+          Ask anything. Get help from experienced people. Pay it forward.
+        </p>
+        <div class="hero__cta">
+          <a href="signup.html" class="btn btn--primary btn--large">Start asking — it's free</a>
+          <a href="explore.html" class="btn btn--ghost btn--large">Browse topics</a>
+        </div>
+      </div>
+      <!-- Floating stat badges (purely decorative, adds life to the hero) -->
+      <div class="hero__stats" aria-hidden="true">
+        <div class="stat-badge stat-badge--1">
+          <span class="stat-badge__number" id="statMembers">12,400+</span>
+          <span class="stat-badge__label">members</span>
+        </div>
+        <div class="stat-badge stat-badge--2">
+          <span class="stat-badge__number" id="statExperts">840</span>
+          <span class="stat-badge__label">verified experts</span>
+        </div>
+        <div class="stat-badge stat-badge--3">
+          <span class="stat-badge__number" id="statAnswered">98%</span>
+          <span class="stat-badge__label">questions answered</span>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- END HERO -->
+
+  <!-- ══════════════════════════════════════════════════════
+    MAIN CONTENT AREA
+    <main> is the primary content of the page.
+    We use a two-column layout: feed (left) + sidebar (right)
+  ══════════════════════════════════════════════════════════ -->
+  <main class="container layout--feed">
+
+    <!-- ── LEFT COLUMN: POST FEED ────────────────────────── -->
+    <section class="feed" aria-label="Post feed">
+
+      <!-- Sort Tabs: Hot / New / Top / Rising -->
+      <div class="feed__tabs" role="tablist" aria-label="Sort posts by">
+        <!-- The "active" class highlights the selected tab -->
+        <button class="feed__tab feed__tab--active" role="tab" data-sort="hot" aria-selected="true">
+          🔥 Hot
+        </button>
+        <button class="feed__tab" role="tab" data-sort="new" aria-selected="false">
+          ✨ New
+        </button>
+        <button class="feed__tab" role="tab" data-sort="top" aria-selected="false">
+          👑 Top
+        </button>
+        <button class="feed__tab" role="tab" data-sort="rising" aria-selected="false">
+          📈 Rising
+        </button>
+      </div>
+
+      <!-- ── POST CARDS CONTAINER ──────────────────────────
+        This <div> is EMPTY right now.
+        JavaScript (posts.js) will read from data/posts.json
+        and fill this area with post cards automatically.
+        The class "reveal" triggers the scroll animation.
+      ──────────────────────────────────────────────────────── -->
+      <div class="post-list" id="postList" aria-live="polite">
+        <!-- JS INSERTS POST CARDS HERE -->
+
+        <!-- SKELETON LOADERS — shown while posts are loading -->
+        <!-- JavaScript removes these once real posts appear -->
+        <div class="post-card post-card--skeleton" aria-hidden="true">
+          <div class="skeleton skeleton--vote"></div>
+          <div class="post-card__body">
+            <div class="skeleton skeleton--line skeleton--wide"></div>
+            <div class="skeleton skeleton--line skeleton--medium"></div>
+            <div class="skeleton skeleton--line skeleton--narrow"></div>
+          </div>
+        </div>
+        <div class="post-card post-card--skeleton" aria-hidden="true">
+          <div class="skeleton skeleton--vote"></div>
+          <div class="post-card__body">
+            <div class="skeleton skeleton--line skeleton--wide"></div>
+            <div class="skeleton skeleton--line skeleton--medium"></div>
+            <div class="skeleton skeleton--line skeleton--narrow"></div>
+          </div>
+        </div>
+        <div class="post-card post-card--skeleton" aria-hidden="true">
+          <div class="skeleton skeleton--vote"></div>
+          <div class="post-card__body">
+            <div class="skeleton skeleton--line skeleton--wide"></div>
+            <div class="skeleton skeleton--line skeleton--medium"></div>
+            <div class="skeleton skeleton--line skeleton--narrow"></div>
+          </div>
+        </div>
+      </div>
+      <!-- END POST LIST -->
+
+    </section>
+    <!-- END FEED -->
+
+    <!-- ── RIGHT COLUMN: SIDEBAR ─────────────────────────── -->
+    <aside class="sidebar" aria-label="Sidebar">
+
+      <!-- Widget 1: Community Stats -->
+      <div class="sidebar-widget reveal">
+        <h2 class="sidebar-widget__title">🏠 HelpHive Community</h2>
+        <p class="sidebar-widget__desc">
+          A place where curiosity meets experience. Ask boldly, answer kindly.
+        </p>
+        <div class="community-stats">
+          <!-- Each stat is a small number + label pair -->
+          <div class="community-stat">
+            <span class="community-stat__number" id="sidebarMembers">12,400</span>
+            <span class="community-stat__label">Members</span>
+          </div>
+          <div class="community-stat">
+            <span class="community-stat__number" id="sidebarOnline">247</span>
+            <span class="community-stat__label">Online now</span>
+          </div>
+          <div class="community-stat">
+            <span class="community-stat__number" id="sidebarPosts">3,891</span>
+            <span class="community-stat__label">Posts today</span>
+          </div>
+        </div>
+        <a href="signup.html" class="btn btn--primary btn--full">Join the community</a>
+      </div>
+
+      <!-- Widget 2: Trending Topics -->
+      <div class="sidebar-widget reveal">
+        <h2 class="sidebar-widget__title">🔥 Trending Topics</h2>
+        <!-- This list is filled by JavaScript from topics.json -->
+        <ul class="topic-list" id="sidebarTopics" aria-label="Trending topics">
+          <!-- JS INSERTS TOPIC ITEMS HERE -->
+        </ul>
+        <a href="explore.html" class="sidebar-widget__link">See all topics →</a>
+      </div>
+
+      <!-- Widget 3: Meet the Experts -->
+      <div class="sidebar-widget reveal">
+        <h2 class="sidebar-widget__title">⭐ Meet the Experts</h2>
+        <!-- Expert cards filled by JavaScript from users.json -->
+        <div class="expert-list" id="sidebarExperts" aria-label="Featured experts">
+          <!-- JS INSERTS EXPERT CARDS HERE -->
+        </div>
+      </div>
+
+      <!-- Widget 4: House Rules -->
+      <div class="sidebar-widget sidebar-widget--rules reveal">
+        <h2 class="sidebar-widget__title">📋 Community Rules</h2>
+        <ol class="rules-list">
+          <li>Be kind and respectful</li>
+          <li>Share real experience, not guesses</li>
+          <li>No spam or self-promotion</li>
+          <li>Experts must verify their field</li>
+          <li>Help others — pay it forward</li>
+        </ol>
+      </div>
+
+    </aside>
+    <!-- END SIDEBAR -->
+
+  </main>
+  <!-- END MAIN -->
+
+  <!-- ══════════════════════════════════════════════════════
+    FOOTER — appears on every page
+  ══════════════════════════════════════════════════════════ -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="footer__brand">
+        <span class="footer__logo">⬡ HelpHive</span>
+        <p class="footer__tagline">Help someone today. Be helped tomorrow.</p>
+      </div>
+      <nav class="footer__links" aria-label="Footer navigation">
+        <a href="explore.html">Explore</a>
+        <a href="topic.html">Topics</a>
+        <a href="login.html">Sign in</a>
+        <a href="signup.html">Join</a>
+      </nav>
+      <p class="footer__copy">© 2025 HelpHive. Made with ❤️ for the community.</p>
+    </div>
+  </footer>
+
+  <!-- ══════════════════════════════════════════════════════
+    TOAST NOTIFICATION CONTAINER
+    This div is always in the page but invisible.
+    JavaScript makes it appear when we need to show a message
+    like "Voted!" or "Post saved!"
+  ══════════════════════════════════════════════════════════ -->
+  <div class="toast-container" id="toastContainer" aria-live="assertive" aria-atomic="true"></div>
+
+  <!-- ── JAVASCRIPT FILES ────────────────────────────────────
+    Scripts go at the BOTTOM of <body> — this is important!
+    If scripts load before the HTML, they can't find elements.
+    Load order matters:
+    1. app.js   → runs first, sets up theme, navbar
+    2. posts.js → loads post data and renders cards
+    3. ui.js    → handles animations, toasts, modals
+    4. auth.js  → checks if user is logged in
+  ──────────────────────────────────────────────────────────── -->
+  <script src="js/app.js"></script>
+  <script src="js/posts.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>

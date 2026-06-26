@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<!--
+  ============================================================
+  HelpHive — profile.html (USER PROFILE)
+  ============================================================
+  Shows a user's profile: their avatar, bio, stats, badges,
+  and their post/answer history organized in tabs.
+
+  BEGINNER TIP:
+  URL will be: profile.html?id=2
+  JavaScript reads the "?id=2" from the URL to load
+  the right user from users.json.
+  If no id is given, it loads the currently logged-in user.
+  ============================================================
+-->
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HelpHive — Profile</title>
+  <meta name="description" content="User profile on HelpHive." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/reset.css" />
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="navbar__inner">
+      <a href="index.html" class="navbar__logo">
+        <span class="navbar__logo-icon" aria-hidden="true">⬡</span>
+        <span class="navbar__logo-text">HelpHive</span>
+      </a>
+      <div class="navbar__search">
+        <div class="search-bar" role="search">
+          <span class="search-bar__icon" aria-hidden="true">🔍</span>
+          <input type="text" class="search-bar__input" placeholder="Search HelpHive..." aria-label="Search" id="searchInput" />
+        </div>
+      </div>
+      <div class="navbar__actions">
+        <a href="explore.html" class="navbar__link">Explore</a>
+        <a href="topic.html" class="navbar__link">Topics</a>
+        <button class="btn btn--icon" id="themeToggle" aria-label="Toggle dark mode"><span id="themeIcon">🌙</span></button>
+        <div class="navbar__auth" id="navAuthButtons">
+          <a href="login.html" class="btn btn--ghost">Sign in</a>
+          <a href="signup.html" class="btn btn--primary">Join free</a>
+        </div>
+        <div class="navbar__user hidden" id="navUserMenu">
+          <a href="create-post.html" class="btn btn--accent">+ Ask</a>
+          <button class="navbar__avatar" id="avatarBtn" aria-label="Open user menu"><span id="avatarLetter">U</span></button>
+          <div class="dropdown hidden" id="userDropdown">
+            <a href="profile.html" class="dropdown__item">My Profile</a>
+            <a href="profile.html#saved" class="dropdown__item">Saved Posts</a>
+            <div class="dropdown__divider"></div>
+            <button class="dropdown__item dropdown__item--danger" id="logoutBtn">Sign out</button>
+          </div>
+        </div>
+        <button class="navbar__hamburger" id="hamburgerBtn" aria-label="Open menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+    <div class="navbar__mobile-menu hidden" id="mobileMenu">
+      <a href="explore.html" class="navbar__mobile-link">Explore</a>
+      <a href="topic.html" class="navbar__mobile-link">Topics</a>
+      <a href="login.html" class="navbar__mobile-link">Sign in</a>
+      <a href="signup.html" class="navbar__mobile-link navbar__mobile-link--accent">Join free</a>
+    </div>
+  </nav>
+
+  <!-- PROFILE BANNER + HEADER -->
+  <section class="profile-banner" id="profileBanner" aria-label="Profile header">
+    <!--
+      This section has two parts:
+      1. A banner image / colored header at the top
+      2. Profile info row below it
+    -->
+    <div class="container">
+      <div class="profile-header">
+
+        <!-- AVATAR (large circle with the user's initial letter) -->
+        <div class="profile-avatar" id="profileAvatar" aria-hidden="true">U</div>
+
+        <!-- USER INFO -->
+        <div class="profile-info">
+          <div class="profile-info__top">
+            <h1 class="profile-info__name" id="profileName">Loading...</h1>
+            <!-- Expert badge — only shown for expert users -->
+            <span class="badge badge--expert badge--large hidden" id="profileExpertBadge">⭐ Verified Expert</span>
+          </div>
+          <!-- Expert field (e.g. "Medicine · Cardiology") -->
+          <p class="profile-info__field" id="profileField"></p>
+          <!-- Bio text -->
+          <p class="profile-info__bio" id="profileBio">Loading profile...</p>
+          <!-- Member since date -->
+          <p class="profile-info__joined">
+            <span class="profile-info__joined-label">Member since</span>
+            <span id="profileJoined">...</span>
+          </p>
+        </div>
+
+        <!-- ACTION BUTTONS (only show when viewing someone else's profile) -->
+        <div class="profile-actions" id="profileActions">
+          <button class="btn btn--primary" id="followBtn">Follow</button>
+          <button class="btn btn--ghost" id="messageBtn">Message</button>
+        </div>
+      </div>
+
+      <!-- STATS ROW — karma, posts, answers, followers -->
+      <div class="profile-stats" id="profileStats" role="list" aria-label="Profile statistics">
+        <div class="profile-stat" role="listitem">
+          <span class="profile-stat__number" id="statKarma">0</span>
+          <span class="profile-stat__label">Karma</span>
+        </div>
+        <div class="profile-stat" role="listitem">
+          <span class="profile-stat__number" id="statPostsCount">0</span>
+          <span class="profile-stat__label">Posts</span>
+        </div>
+        <div class="profile-stat" role="listitem">
+          <span class="profile-stat__number" id="statAnswers">0</span>
+          <span class="profile-stat__label">Answers</span>
+        </div>
+        <div class="profile-stat" role="listitem">
+          <span class="profile-stat__number" id="statFollowers">0</span>
+          <span class="profile-stat__label">Followers</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BADGES SHELF -->
+  <div class="badges-shelf container" id="badgesShelf" aria-label="Earned badges">
+    <h2 class="sr-only">Badges</h2>
+    <!-- JS fills this with badge icons from the user's badges array -->
+    <!-- Example: <span class="earned-badge" title="Top Helper">🤝 Top Helper</span> -->
+  </div>
+
+  <!-- MAIN CONTENT: Tabs + Content -->
+  <main class="container layout--profile">
+
+    <!-- TAB BAR -->
+    <!--
+      role="tablist" and role="tab" are accessibility attributes.
+      They tell screen readers these are tab controls.
+      JavaScript handles switching between tabs.
+    -->
+    <div class="profile-tabs" role="tablist" aria-label="Profile sections">
+      <button class="profile-tab profile-tab--active" role="tab" data-tab="posts" aria-selected="true">
+        📝 My Posts
+      </button>
+      <button class="profile-tab" role="tab" data-tab="answers" aria-selected="false">
+        💬 My Answers
+      </button>
+      <button class="profile-tab" role="tab" data-tab="saved" aria-selected="false" id="savedTab">
+        🔖 Saved
+      </button>
+    </div>
+
+    <!-- TAB CONTENT PANELS -->
+    <div class="profile-content">
+
+      <!-- Panel: Posts -->
+      <!-- role="tabpanel" pairs with the tab above -->
+      <div class="tab-panel tab-panel--active" role="tabpanel" id="panel-posts" aria-label="My posts">
+        <!-- JS fills this with the user's posts (same card style as index.html) -->
+        <div class="post-list" id="userPostList" aria-live="polite">
+          <!-- JS INSERTS POST CARDS HERE -->
+        </div>
+        <div class="empty-state hidden" id="postsEmpty">
+          <p class="empty-state__icon" aria-hidden="true">📭</p>
+          <h3 class="empty-state__title">No posts yet</h3>
+          <p class="empty-state__text">When you ask a question or share an experience, it'll appear here.</p>
+          <a href="create-post.html" class="btn btn--primary">Ask your first question</a>
+        </div>
+      </div>
+
+      <!-- Panel: Answers -->
+      <div class="tab-panel hidden" role="tabpanel" id="panel-answers" aria-label="My answers">
+        <div class="post-list" id="userAnswerList" aria-live="polite">
+          <!-- JS INSERTS ANSWER CARDS HERE -->
+        </div>
+        <div class="empty-state hidden" id="answersEmpty">
+          <p class="empty-state__icon" aria-hidden="true">💬</p>
+          <h3 class="empty-state__title">No answers yet</h3>
+          <p class="empty-state__text">Help someone by answering a question in the community.</p>
+          <a href="index.html" class="btn btn--primary">Browse questions</a>
+        </div>
+      </div>
+
+      <!-- Panel: Saved -->
+      <div class="tab-panel hidden" role="tabpanel" id="panel-saved" aria-label="Saved posts">
+        <div class="post-list" id="userSavedList" aria-live="polite">
+          <!-- JS INSERTS SAVED POST CARDS HERE -->
+        </div>
+        <div class="empty-state hidden" id="savedEmpty">
+          <p class="empty-state__icon" aria-hidden="true">🔖</p>
+          <h3 class="empty-state__title">Nothing saved yet</h3>
+          <p class="empty-state__text">Tap 🔖 on any post to save it for later.</p>
+          <a href="index.html" class="btn btn--primary">Browse the feed</a>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="footer__brand">
+        <span class="footer__logo">⬡ HelpHive</span>
+        <p class="footer__tagline">Help someone today. Be helped tomorrow.</p>
+      </div>
+      <nav class="footer__links" aria-label="Footer navigation">
+        <a href="explore.html">Explore</a>
+        <a href="topic.html">Topics</a>
+        <a href="login.html">Sign in</a>
+        <a href="signup.html">Join</a>
+      </nav>
+      <p class="footer__copy">© 2025 HelpHive. Made with ❤️ for the community.</p>
+    </div>
+  </footer>
+
+  <div class="toast-container" id="toastContainer" aria-live="assertive" aria-atomic="true"></div>
+
+  <script src="js/app.js"></script>
+  <script src="js/posts.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>

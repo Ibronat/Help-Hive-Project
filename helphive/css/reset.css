@@ -1,0 +1,214 @@
+/* ============================================================
+   HelpHive — reset.css
+   ============================================================
+   PURPOSE: Remove ALL default browser styles so every browser
+   (Chrome, Firefox, Safari, Edge) starts from the same blank
+   slate. Without this, browsers add their own margins, padding,
+   and font sizes that make your layout look different everywhere.
+
+   BEGINNER TIP:
+   Load this file FIRST before all other CSS files.
+   Think of it as "clearing the whiteboard" before you draw.
+   ============================================================ */
+
+
+/* ── 1. BOX MODEL FIX ──────────────────────────────────────────
+   The "box model" controls how width and height are calculated.
+
+   DEFAULT (bad): width = content only. Padding and border are
+   ADDED on top, making elements wider than you expect.
+
+   border-box (good): width INCLUDES padding and border.
+   So a 300px box is always exactly 300px — no surprises.
+
+   The * selector means "apply to EVERYTHING on the page".
+   ::before and ::after are invisible elements CSS can create.
+────────────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box; /* Width includes padding and border */
+  margin: 0;             /* Remove all default margins */
+  padding: 0;            /* Remove all default padding */
+}
+
+
+/* ── 2. ROOT / HTML ELEMENT ────────────────────────────────────
+   The <html> element wraps everything.
+   scroll-behavior: smooth makes anchor links (#section) scroll
+   smoothly instead of jumping instantly.
+────────────────────────────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+  /* font-size: 16px is the browser default — we keep it */
+  -webkit-text-size-adjust: 100%; /* Prevents iOS from auto-scaling text */
+}
+
+
+/* ── 3. BODY ────────────────────────────────────────────────────
+   The <body> element is the visible part of every page.
+   We set the font, background, and text color here using
+   CSS variables (defined in variables.css).
+
+   var(--variable-name) reads a custom CSS property.
+────────────────────────────────────────────────────────────── */
+body {
+  font-family: var(--font-body);   /* Our chosen font from variables.css */
+  font-size: var(--text-base);     /* Base font size (16px) */
+  line-height: var(--leading-normal); /* Line spacing */
+  background-color: var(--color-bg);  /* Page background */
+  color: var(--color-text);           /* Default text color */
+  min-height: 100vh;               /* Page is always at least full screen height */
+  overflow-x: hidden;              /* Prevent horizontal scrollbar from appearing */
+
+  /* Smooth color transitions when dark mode is toggled */
+  transition:
+    background-color var(--transition-base),
+    color var(--transition-base);
+}
+
+
+/* ── 4. HEADINGS (h1 through h6) ───────────────────────────────
+   Browsers make h1 huge, h2 big, etc. by default.
+   We reset them all to the same size and let our CSS classes
+   control the actual sizes. This gives us full control.
+────────────────────────────────────────────────────────────── */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display); /* Use the display (heading) font */
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-tight);
+  color: var(--color-text);         /* Inherit the page text color */
+}
+
+
+/* ── 5. LINKS ───────────────────────────────────────────────────
+   Browsers make links blue and underlined.
+   We reset them so our CSS classes can style them properly.
+────────────────────────────────────────────────────────────── */
+a {
+  color: inherit;          /* Use the surrounding text color by default */
+  text-decoration: none;   /* Remove underline */
+  transition: color var(--transition-fast); /* Smooth color change on hover */
+}
+
+a:hover {
+  color: var(--color-brand); /* Brand color on hover */
+}
+
+/* Show focus ring for keyboard navigation (accessibility!) */
+a:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+
+/* ── 6. LISTS ───────────────────────────────────────────────────
+   Browsers add bullet points and left padding to <ul> and <ol>.
+   We reset this so we can style lists our own way.
+────────────────────────────────────────────────────────────── */
+ul, ol {
+  list-style: none; /* Remove bullet points */
+}
+
+
+/* ── 7. IMAGES & MEDIA ──────────────────────────────────────────
+   By default, images can overflow their container.
+   max-width: 100% makes images shrink to fit their container.
+   display: block removes the small gap below inline images.
+────────────────────────────────────────────────────────────── */
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+}
+
+
+/* ── 8. FORM ELEMENTS ───────────────────────────────────────────
+   Inputs, buttons, and textareas have their own fonts by default.
+   "inherit" makes them use the same font as the rest of the page.
+────────────────────────────────────────────────────────────── */
+input, button, textarea, select {
+  font: inherit; /* Use the same font as the rest of the page */
+  color: inherit;
+  border: none;         /* Remove default borders */
+  background: none;     /* Remove default backgrounds */
+  outline: none;        /* Remove default outline (we add our own on focus) */
+}
+
+button {
+  cursor: pointer; /* Show hand cursor when hovering buttons */
+}
+
+textarea {
+  resize: vertical; /* Only allow vertical resizing (not horizontal) */
+}
+
+
+/* ── 9. TABLE RESET ─────────────────────────────────────────────
+   Tables have spacing between cells by default.
+   collapse removes that gap.
+────────────────────────────────────────────────────────────── */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+
+/* ── 10. HIDDEN UTILITY CLASS ───────────────────────────────────
+   This is used constantly in our HTML.
+   Adding class="hidden" to any element makes it invisible.
+   JavaScript removes the "hidden" class to show things,
+   and adds it back to hide them again.
+
+   display: none means the element takes up NO space.
+   This is different from visibility: hidden (still takes space).
+────────────────────────────────────────────────────────────── */
+.hidden {
+  display: none !important; /* !important ensures this always wins */
+}
+
+
+/* ── 11. SCREEN READER ONLY ─────────────────────────────────────
+   Sometimes we need to add text that's ONLY for screen readers
+   (accessibility tools for people who can't see the screen).
+   This class makes something invisible on screen but readable
+   by assistive technology.
+────────────────────────────────────────────────────────────── */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+
+/* ── 12. FOCUS STYLES ───────────────────────────────────────────
+   When users navigate with keyboard (Tab key), focused elements
+   need a visible ring. We style this for our brand color.
+   :focus-visible only shows the ring for keyboard users,
+   not for mouse clicks (which is the modern best practice).
+────────────────────────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+}
+
+/* Remove focus ring for mouse/touch users */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+
+/* ── 13. SELECTION COLOR ────────────────────────────────────────
+   The highlight color when a user selects/drags over text.
+   We use our brand color with some transparency.
+────────────────────────────────────────────────────────────── */
+::selection {
+  background-color: var(--color-brand-light);
+  color: var(--color-brand-dark);
+}

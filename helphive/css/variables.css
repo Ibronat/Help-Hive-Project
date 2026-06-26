@@ -1,0 +1,256 @@
+/* ============================================================
+   HelpHive — variables.css
+   ============================================================
+   PURPOSE: Define ALL design tokens (colors, fonts, sizes,
+   spacing) as CSS custom properties (variables).
+
+   BEGINNER TIP:
+   A CSS variable looks like this: --variable-name: value;
+   You SET it inside :root {} which means "the whole page".
+   You USE it anywhere with: var(--variable-name)
+
+   WHY use variables?
+   If you want to change the brand color, you change ONE line
+   here and it updates everywhere on the whole site instantly!
+   ============================================================ */
+
+
+/* ── :root = LIGHT MODE (default) ──────────────────────────────
+   :root means the <html> element — the very top of the page.
+   Variables set here are available everywhere in CSS.
+────────────────────────────────────────────────────────────── */
+:root {
+
+  /* ────────────────────────────────────────────────────────
+     BRAND COLORS — the core HelpHive palette
+     Deep violet + electric teal = energetic, trustworthy, modern
+  ──────────────────────────────────────────────────────────── */
+
+  /* Primary brand — deep violet */
+  --color-brand:        #6C47FF;   /* Main brand color (buttons, links, accents) */
+  --color-brand-hover:  #5535E0;   /* Slightly darker for hover states */
+  --color-brand-light:  #EDE9FF;   /* Very light violet for backgrounds */
+  --color-brand-dark:   #3D1FCC;   /* Dark violet for text on light backgrounds */
+
+  /* Accent — electric teal */
+  --color-accent:       #00D4C8;   /* Secondary accent (tags, highlights) */
+  --color-accent-hover: #00B5AB;   /* Slightly darker for hover */
+  --color-accent-light: #E0FFFE;   /* Very light teal for backgrounds */
+
+  /* Vote colors */
+  --color-upvote:       #FF8C42;   /* Warm amber for upvote */
+  --color-upvote-bg:    #FFF4EC;   /* Light amber background */
+  --color-downvote:     #8B9AB5;   /* Muted blue-grey for downvote */
+
+  /* Status colors */
+  --color-success:      #22C55E;   /* Green — success messages */
+  --color-success-bg:   #F0FDF4;
+  --color-warning:      #F59E0B;   /* Amber — warnings */
+  --color-warning-bg:   #FFFBEB;
+  --color-danger:       #EF4444;   /* Red — errors, delete actions */
+  --color-danger-bg:    #FEF2F2;
+  --color-danger-hover: #DC2626;
+
+  /* Expert badge — golden gradient */
+  --color-expert:       #F59E0B;   /* Gold for expert badges */
+  --color-expert-bg:    #FFFBEB;
+  --color-expert-dark:  #92400E;
+
+  /* ────────────────────────────────────────────────────────
+     BACKGROUNDS & SURFACES — light mode
+     We use a warm near-white, not pure white, for a softer feel.
+  ──────────────────────────────────────────────────────────── */
+  --color-bg:           #F7F7FB;   /* Main page background */
+  --color-surface:      #FFFFFF;   /* Cards, widgets, inputs */
+  --color-surface-2:    #F0F0F7;   /* Slightly elevated surface */
+  --color-surface-hover:#EAEAF5;   /* Surface on hover */
+
+  /* ────────────────────────────────────────────────────────
+     TEXT COLORS — light mode
+  ──────────────────────────────────────────────────────────── */
+  --color-text:         #1A1A2E;   /* Primary text — near-black with blue tint */
+  --color-text-soft:    #4A4A6A;   /* Secondary text — softer, for meta info */
+  --color-text-muted:   #8A8AAA;   /* Muted text — timestamps, hints */
+  --color-text-on-brand:#FFFFFF;   /* Text on brand-colored backgrounds */
+
+  /* ────────────────────────────────────────────────────────
+     BORDERS
+  ──────────────────────────────────────────────────────────── */
+  --color-border:       #E2E2EF;   /* Default border */
+  --color-border-strong:#C5C5DD;   /* Stronger border for emphasis */
+
+  /* ────────────────────────────────────────────────────────
+     NAVBAR
+  ──────────────────────────────────────────────────────────── */
+  --color-navbar-bg:    rgba(255, 255, 255, 0.92); /* Semi-transparent */
+  --color-navbar-border:#E2E2EF;
+
+  /* ────────────────────────────────────────────────────────
+     SHADOWS — creates depth effect
+     Box shadows use: x-offset y-offset blur spread color
+  ──────────────────────────────────────────────────────────── */
+  --shadow-sm:    0 1px 3px rgba(108, 71, 255, 0.06),
+                  0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md:    0 4px 16px rgba(108, 71, 255, 0.10),
+                  0 2px 6px rgba(0, 0, 0, 0.06);
+  --shadow-lg:    0 10px 40px rgba(108, 71, 255, 0.14),
+                  0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-brand: 0 4px 20px rgba(108, 71, 255, 0.35); /* Glowing brand shadow */
+  --shadow-expert:0 0 16px rgba(245, 158, 11, 0.40);  /* Glowing gold for experts */
+
+  /* ────────────────────────────────────────────────────────
+     TYPOGRAPHY — fonts and sizes
+  ──────────────────────────────────────────────────────────── */
+
+  /* Font families */
+  --font-display: 'Plus Jakarta Sans', system-ui, sans-serif; /* For headings */
+  --font-body:    'Inter', system-ui, sans-serif;              /* For body text */
+
+  /* Font sizes — named by their use, not just px values */
+  --text-xs:   0.75rem;    /*  12px — tiny labels, hints */
+  --text-sm:   0.875rem;   /*  14px — secondary text, captions */
+  --text-base: 1rem;       /*  16px — main body text */
+  --text-lg:   1.125rem;   /*  18px — slightly large body */
+  --text-xl:   1.25rem;    /*  20px — small headings */
+  --text-2xl:  1.5rem;     /*  24px — card headings */
+  --text-3xl:  1.875rem;   /*  30px — section headings */
+  --text-4xl:  2.25rem;    /*  36px — page titles */
+  --text-5xl:  3rem;       /*  48px — hero headings */
+
+  /* Font weights */
+  --weight-normal: 400;    /* Regular text */
+  --weight-medium: 500;    /* Slightly emphasized */
+  --weight-semibold: 600;  /* Labels, nav links */
+  --weight-bold:   700;    /* Headings */
+  --weight-extrabold: 800; /* Hero titles */
+
+  /* Line heights (spacing between lines of text) */
+  --leading-none:   1;     /* No extra space — icon-only */
+  --leading-tight:  1.25;  /* Headings */
+  --leading-snug:   1.375; /* Sub-headings */
+  --leading-normal: 1.5;   /* Body text */
+  --leading-relaxed:1.625; /* Long-form reading */
+
+  /* Letter spacing */
+  --tracking-tight: -0.025em;  /* Slightly compressed — big headings */
+  --tracking-normal: 0em;
+  --tracking-wide:  0.05em;    /* Spread out — small caps, labels */
+
+  /* ────────────────────────────────────────────────────────
+     SPACING SCALE — based on 4px grid
+     8px = 0.5rem, 16px = 1rem, 24px = 1.5rem, etc.
+     Using a scale keeps spacing consistent everywhere.
+  ──────────────────────────────────────────────────────────── */
+  --space-1:  0.25rem;   /*  4px */
+  --space-2:  0.5rem;    /*  8px */
+  --space-3:  0.75rem;   /* 12px */
+  --space-4:  1rem;      /* 16px */
+  --space-5:  1.25rem;   /* 20px */
+  --space-6:  1.5rem;    /* 24px */
+  --space-8:  2rem;      /* 32px */
+  --space-10: 2.5rem;    /* 40px */
+  --space-12: 3rem;      /* 48px */
+  --space-16: 4rem;      /* 64px */
+  --space-20: 5rem;      /* 80px */
+
+  /* ────────────────────────────────────────────────────────
+     BORDER RADIUS — how rounded corners are
+  ──────────────────────────────────────────────────────────── */
+  --radius-sm:   0.25rem;    /*  4px — subtle rounding */
+  --radius-md:   0.5rem;     /*  8px — buttons, inputs */
+  --radius-lg:   0.75rem;    /* 12px — cards */
+  --radius-xl:   1rem;       /* 16px — modals, larger cards */
+  --radius-2xl:  1.5rem;     /* 24px — pill shapes */
+  --radius-full: 9999px;     /* Perfect circle / pill */
+
+  /* ────────────────────────────────────────────────────────
+     TRANSITIONS — how fast animations happen
+  ──────────────────────────────────────────────────────────── */
+  --transition-fast:   150ms ease;        /* Quick: hover color changes */
+  --transition-base:   250ms ease;        /* Normal: most transitions */
+  --transition-slow:   400ms ease;        /* Slow: panel slides, reveals */
+  --transition-bounce: 300ms cubic-bezier(0.34, 1.56, 0.64, 1); /* Springy feel */
+
+  /* ────────────────────────────────────────────────────────
+     LAYOUT — page width and spacing
+  ──────────────────────────────────────────────────────────── */
+  --max-width:      1200px;   /* Maximum page content width */
+  --navbar-height:  64px;     /* Height of the fixed navbar */
+  --sidebar-width:  320px;    /* Width of the right sidebar */
+  --feed-width:     680px;    /* Width of the post feed */
+
+  /* Horizontal padding on the container */
+  --container-pad-x: clamp(1rem, 4vw, 2rem);
+  /* clamp(min, preferred, max) — smart responsive value */
+}
+
+
+/* ── DARK MODE ──────────────────────────────────────────────────
+   When JavaScript sets data-theme="dark" on the <body> tag,
+   these variable values OVERRIDE the ones above.
+   Only the color values need to change — fonts, spacing,
+   radius, and transitions stay the same.
+
+   BEGINNER TIP:
+   [data-theme="dark"] is a CSS "attribute selector".
+   It means "select the element that has data-theme set to dark".
+────────────────────────────────────────────────────────────── */
+[data-theme="dark"] {
+
+  /* Brand stays the same — violet works great on dark too */
+  --color-brand:        #7C5CFF;   /* Slightly lighter for better dark contrast */
+  --color-brand-hover:  #9070FF;
+  --color-brand-light:  #1E1640;   /* Dark violet tint for backgrounds */
+  --color-brand-dark:   #C4B5FF;   /* Light for text on dark */
+
+  --color-accent:       #00E5D8;   /* Brighter teal on dark */
+  --color-accent-light: #0D2E2D;
+
+  /* Dark backgrounds */
+  --color-bg:           #0F0F1A;   /* Main background — very dark navy */
+  --color-surface:      #1A1A2E;   /* Cards — dark navy */
+  --color-surface-2:    #22223A;   /* Elevated surface */
+  --color-surface-hover:#2A2A45;   /* Hover state */
+
+  /* Dark text */
+  --color-text:         #E8E8F5;   /* Near-white with slight blue tint */
+  --color-text-soft:    #9898BB;   /* Secondary text */
+  --color-text-muted:   #5C5C7A;   /* Muted text */
+
+  /* Dark borders */
+  --color-border:       #2A2A45;
+  --color-border-strong:#3A3A5C;
+
+  /* Dark navbar */
+  --color-navbar-bg:    rgba(15, 15, 26, 0.95);
+  --color-navbar-border:#2A2A45;
+
+  /* Darker shadows (less visible on dark backgrounds) */
+  --shadow-sm:    0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md:    0 4px 16px rgba(0, 0, 0, 0.4);
+  --shadow-lg:    0 10px 40px rgba(0, 0, 0, 0.5);
+  --shadow-brand: 0 4px 20px rgba(124, 92, 255, 0.5);
+
+  /* Status colors get lighter on dark backgrounds */
+  --color-success-bg:   #052E16;
+  --color-warning-bg:   #1C1400;
+  --color-danger-bg:    #1C0000;
+  --color-expert-bg:    #1C1000;
+}
+
+
+/* ── REDUCED MOTION ─────────────────────────────────────────────
+   Some users have motion sickness or prefer less animation.
+   This media query detects that setting and turns off animations.
+   This is an important accessibility feature.
+────────────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

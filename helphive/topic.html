@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<!--
+  ============================================================
+  HelpHive — topic.html (TOPIC / CATEGORY FEED)
+  ============================================================
+  Shows posts filtered to ONE specific topic.
+  Also has a topic banner with its icon, color, and stats.
+
+  BEGINNER TIP:
+  URL: topic.html?id=2
+  JavaScript reads "?id=2", finds that topic in topics.json,
+  then filters posts.json to show only posts with topicId: 2.
+  This one page handles ALL topics — the content just changes!
+  ============================================================
+-->
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HelpHive — Topic</title>
+  <meta name="description" content="Browse posts in this topic on HelpHive." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/reset.css" />
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="navbar__inner">
+      <a href="index.html" class="navbar__logo">
+        <span class="navbar__logo-icon" aria-hidden="true">⬡</span>
+        <span class="navbar__logo-text">HelpHive</span>
+      </a>
+      <div class="navbar__search">
+        <div class="search-bar" role="search">
+          <span class="search-bar__icon" aria-hidden="true">🔍</span>
+          <input type="text" class="search-bar__input" placeholder="Search HelpHive..." aria-label="Search" id="searchInput" />
+        </div>
+      </div>
+      <div class="navbar__actions">
+        <a href="explore.html" class="navbar__link">Explore</a>
+        <a href="topic.html" class="navbar__link navbar__link--active">Topics</a>
+        <button class="btn btn--icon" id="themeToggle" aria-label="Toggle dark mode"><span id="themeIcon">🌙</span></button>
+        <div class="navbar__auth" id="navAuthButtons">
+          <a href="login.html" class="btn btn--ghost">Sign in</a>
+          <a href="signup.html" class="btn btn--primary">Join free</a>
+        </div>
+        <div class="navbar__user hidden" id="navUserMenu">
+          <a href="create-post.html" class="btn btn--accent">+ Ask</a>
+          <button class="navbar__avatar" id="avatarBtn" aria-label="Open user menu"><span id="avatarLetter">U</span></button>
+          <div class="dropdown hidden" id="userDropdown">
+            <a href="profile.html" class="dropdown__item">My Profile</a>
+            <a href="profile.html#saved" class="dropdown__item">Saved Posts</a>
+            <div class="dropdown__divider"></div>
+            <button class="dropdown__item dropdown__item--danger" id="logoutBtn">Sign out</button>
+          </div>
+        </div>
+        <button class="navbar__hamburger" id="hamburgerBtn" aria-label="Open menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+    <div class="navbar__mobile-menu hidden" id="mobileMenu">
+      <a href="explore.html" class="navbar__mobile-link">Explore</a>
+      <a href="topic.html" class="navbar__mobile-link">Topics</a>
+      <a href="login.html" class="navbar__mobile-link">Sign in</a>
+      <a href="signup.html" class="navbar__mobile-link navbar__mobile-link--accent">Join free</a>
+    </div>
+  </nav>
+
+  <!-- TOPIC BANNER
+    The background color of this section is set dynamically by JavaScript.
+    It uses the color value from topics.json for the current topic.
+    CSS variable --topic-color is set inline by JS:
+    element.style.setProperty('--topic-color', topic.color)
+  -->
+  <section class="topic-banner" id="topicBanner" aria-label="Topic information">
+    <div class="container">
+      <div class="topic-banner__inner">
+
+        <!-- Topic icon (emoji from topics.json) -->
+        <div class="topic-banner__icon" id="topicIcon" aria-hidden="true">📚</div>
+
+        <!-- Topic info -->
+        <div class="topic-banner__info">
+          <h1 class="topic-banner__name" id="topicName">Loading...</h1>
+          <p class="topic-banner__desc" id="topicDesc">Loading topic description...</p>
+
+          <!-- Stats row -->
+          <div class="topic-banner__stats">
+            <span class="topic-stat">
+              <span class="topic-stat__num" id="topicPostCount">0</span>
+              <span class="topic-stat__label">posts</span>
+            </span>
+            <span class="topic-stat">
+              <span class="topic-stat__num" id="topicFollowers">0</span>
+              <span class="topic-stat__label">followers</span>
+            </span>
+          </div>
+        </div>
+
+        <!-- Join / Follow button -->
+        <div class="topic-banner__actions">
+          <button class="btn btn--primary" id="joinTopicBtn">
+            + Join Topic
+          </button>
+          <a href="create-post.html" class="btn btn--ghost">Ask in this topic</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN CONTENT -->
+  <main class="container layout--feed">
+
+    <!-- LEFT: Topic Feed -->
+    <section class="feed" aria-label="Topic posts">
+
+      <!-- Sort Tabs -->
+      <div class="feed__tabs" role="tablist" aria-label="Sort posts">
+        <button class="feed__tab feed__tab--active" role="tab" data-sort="hot" aria-selected="true">🔥 Hot</button>
+        <button class="feed__tab" role="tab" data-sort="new" aria-selected="false">✨ New</button>
+        <button class="feed__tab" role="tab" data-sort="top" aria-selected="false">👑 Top</button>
+      </div>
+
+      <!-- Post List (same as index.html — same JS, same CSS) -->
+      <div class="post-list" id="postList" aria-live="polite">
+        <!-- JS inserts posts filtered by current topic -->
+        <!-- Skeleton loaders while loading -->
+        <div class="post-card post-card--skeleton" aria-hidden="true">
+          <div class="skeleton skeleton--vote"></div>
+          <div class="post-card__body">
+            <div class="skeleton skeleton--line skeleton--wide"></div>
+            <div class="skeleton skeleton--line skeleton--medium"></div>
+            <div class="skeleton skeleton--line skeleton--narrow"></div>
+          </div>
+        </div>
+        <div class="post-card post-card--skeleton" aria-hidden="true">
+          <div class="skeleton skeleton--vote"></div>
+          <div class="post-card__body">
+            <div class="skeleton skeleton--line skeleton--wide"></div>
+            <div class="skeleton skeleton--line skeleton--medium"></div>
+            <div class="skeleton skeleton--line skeleton--narrow"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Empty state if no posts in this topic -->
+      <div class="empty-state hidden" id="topicPostsEmpty">
+        <p class="empty-state__icon" aria-hidden="true">💬</p>
+        <h3 class="empty-state__title">No posts yet in this topic</h3>
+        <p class="empty-state__text">Be the first to ask a question or share your experience!</p>
+        <a href="create-post.html" class="btn btn--primary">Create the first post</a>
+      </div>
+
+    </section>
+
+    <!-- RIGHT: Sidebar -->
+    <aside class="sidebar" aria-label="Topic sidebar">
+
+      <!-- About this topic -->
+      <div class="sidebar-widget reveal" id="topicAboutWidget">
+        <h2 class="sidebar-widget__title" id="topicAboutTitle">About this topic</h2>
+        <p class="sidebar-widget__desc" id="topicAboutDesc">...</p>
+        <a href="create-post.html" class="btn btn--accent btn--full">+ Post in this topic</a>
+      </div>
+
+      <!-- Top contributors in this topic -->
+      <div class="sidebar-widget reveal">
+        <h2 class="sidebar-widget__title">🏆 Top Contributors</h2>
+        <!-- JS fills this with users who have most posts in this topic -->
+        <div class="contributor-list" id="topicContributors">
+          <!-- JS INSERTS CONTRIBUTOR ITEMS HERE -->
+        </div>
+      </div>
+
+      <!-- Related Topics -->
+      <div class="sidebar-widget reveal">
+        <h2 class="sidebar-widget__title">🔗 Related Topics</h2>
+        <ul class="topic-list" id="relatedTopics">
+          <!-- JS INSERTS RELATED TOPIC LINKS HERE -->
+        </ul>
+        <a href="explore.html" class="sidebar-widget__link">All topics →</a>
+      </div>
+
+    </aside>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="footer__brand">
+        <span class="footer__logo">⬡ HelpHive</span>
+        <p class="footer__tagline">Help someone today. Be helped tomorrow.</p>
+      </div>
+      <nav class="footer__links" aria-label="Footer navigation">
+        <a href="explore.html">Explore</a>
+        <a href="topic.html">Topics</a>
+        <a href="login.html">Sign in</a>
+        <a href="signup.html">Join</a>
+      </nav>
+      <p class="footer__copy">© 2025 HelpHive. Made with ❤️ for the community.</p>
+    </div>
+  </footer>
+
+  <div class="toast-container" id="toastContainer" aria-live="assertive" aria-atomic="true"></div>
+
+  <script src="js/app.js"></script>
+  <script src="js/posts.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>
