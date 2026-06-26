@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<!--
+  ============================================================
+  HelpHive — create-post.html (ASK / SHARE)
+  ============================================================
+  This page lets users write a new post.
+  There are two types:
+  - "Ask a Question" — for people seeking help
+  - "Share Experience" — for experts sharing knowledge
+
+  BEGINNER TIP:
+  This page is "protected" — if you're not logged in,
+  JavaScript redirects you to login.html automatically.
+  That's a simple way to protect pages without a real server.
+  ============================================================
+-->
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HelpHive — Create Post</title>
+  <meta name="description" content="Ask a question or share your experience on HelpHive." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/reset.css" />
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="navbar__inner">
+      <a href="index.html" class="navbar__logo">
+        <span class="navbar__logo-icon" aria-hidden="true">⬡</span>
+        <span class="navbar__logo-text">HelpHive</span>
+      </a>
+      <div class="navbar__search">
+        <div class="search-bar" role="search">
+          <span class="search-bar__icon" aria-hidden="true">🔍</span>
+          <input type="text" class="search-bar__input" placeholder="Search HelpHive..." aria-label="Search" id="searchInput" />
+        </div>
+      </div>
+      <div class="navbar__actions">
+        <a href="explore.html" class="navbar__link">Explore</a>
+        <a href="topic.html" class="navbar__link">Topics</a>
+        <button class="btn btn--icon" id="themeToggle" aria-label="Toggle dark mode"><span id="themeIcon">🌙</span></button>
+        <div class="navbar__user hidden" id="navUserMenu">
+          <button class="navbar__avatar" id="avatarBtn" aria-label="Open user menu"><span id="avatarLetter">U</span></button>
+          <div class="dropdown hidden" id="userDropdown">
+            <a href="profile.html" class="dropdown__item">My Profile</a>
+            <div class="dropdown__divider"></div>
+            <button class="dropdown__item dropdown__item--danger" id="logoutBtn">Sign out</button>
+          </div>
+        </div>
+        <button class="navbar__hamburger" id="hamburgerBtn" aria-label="Open menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+    <div class="navbar__mobile-menu hidden" id="mobileMenu">
+      <a href="explore.html" class="navbar__mobile-link">Explore</a>
+      <a href="topic.html" class="navbar__mobile-link">Topics</a>
+    </div>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <section class="page-header page-header--small">
+    <div class="container">
+      <h1 class="page-header__title">Create a Post</h1>
+      <p class="page-header__sub">Ask boldly. Share generously.</p>
+    </div>
+  </section>
+
+  <main class="container layout--create">
+
+    <!-- ── CREATE POST EDITOR ─────────────────────────────── -->
+    <div class="post-editor" id="postEditor">
+
+      <!-- POST TYPE TOGGLE -->
+      <!--
+        This controls what KIND of post the user is creating.
+        The toggle changes the editor's placeholder text
+        and adds a "question" or "experience" tag to the post.
+      -->
+      <div class="post-type-toggle" role="group" aria-label="Post type">
+        <button class="post-type-btn post-type-btn--active" id="typeQuestion" data-type="question">
+          ❓ Ask a Question
+        </button>
+        <button class="post-type-btn" id="typeExperience" data-type="experience">
+          💡 Share Experience
+        </button>
+      </div>
+
+      <!-- EDITOR BODY -->
+      <div class="editor-card">
+
+        <!-- Title Input -->
+        <div class="editor-section">
+          <label class="editor-label" for="postTitle">Title</label>
+          <input
+            type="text"
+            class="editor-title-input"
+            id="postTitle"
+            placeholder="What's your question? Be specific."
+            maxlength="300"
+            aria-required="true"
+            aria-describedby="titleCount titleError"
+          />
+          <!-- Character counter — JS updates this as user types -->
+          <div class="editor-meta-row">
+            <span class="form-error hidden" id="titleError" role="alert">Please add a title.</span>
+            <span class="char-count" id="titleCount" aria-live="polite">0 / 300</span>
+          </div>
+        </div>
+
+        <!-- Topic Selector -->
+        <div class="editor-section">
+          <label class="editor-label" for="postTopic">Topic</label>
+          <!--
+            A <select> creates a dropdown menu.
+            The options are filled by JavaScript from topics.json.
+          -->
+          <select class="editor-select" id="postTopic" aria-required="true">
+            <option value="">— Choose a topic —</option>
+            <!-- JS adds <option> elements here from topics.json -->
+          </select>
+          <span class="form-error hidden" id="topicError" role="alert">Please choose a topic.</span>
+        </div>
+
+        <!-- Body / Content Area -->
+        <div class="editor-section">
+          <div class="editor-label-row">
+            <label class="editor-label" for="postBody">Details</label>
+            <!-- Preview toggle -->
+            <button class="btn btn--ghost btn--small" id="previewToggle">👁️ Preview</button>
+          </div>
+
+          <!-- Simple formatting toolbar -->
+          <!--
+            These buttons add markdown formatting to the text area.
+            They DON'T use a fancy library — just plain JS string
+            manipulation, which is great for beginners to understand.
+          -->
+          <div class="editor-toolbar" role="toolbar" aria-label="Formatting toolbar">
+            <button class="toolbar-btn" data-format="bold" aria-label="Bold">B</button>
+            <button class="toolbar-btn toolbar-btn--italic" data-format="italic" aria-label="Italic">I</button>
+            <button class="toolbar-btn" data-format="link" aria-label="Insert link">🔗</button>
+            <button class="toolbar-btn" data-format="code" aria-label="Insert code">&lt;/&gt;</button>
+            <div class="toolbar-sep" aria-hidden="true"></div>
+            <button class="toolbar-btn" data-format="bullet" aria-label="Bullet list">• List</button>
+          </div>
+
+          <!-- Writing area -->
+          <textarea
+            class="editor-textarea"
+            id="postBody"
+            placeholder="Give as much detail as you can. What have you already tried? What specifically do you need help with?"
+            rows="10"
+            aria-required="true"
+            aria-describedby="bodyError"
+          ></textarea>
+          <span class="form-error hidden" id="bodyError" role="alert">Please add some details.</span>
+
+          <!-- Preview area — shown when Preview is toggled on -->
+          <div class="editor-preview hidden" id="editorPreview" aria-live="polite">
+            <!-- JS renders a preview of the post here -->
+          </div>
+        </div>
+
+        <!-- Tags Input -->
+        <div class="editor-section">
+          <label class="editor-label" for="tagInput">Tags <span class="editor-label--optional">(optional)</span></label>
+          <!--
+            Tags work like this:
+            1. User types a word and presses Enter or comma
+            2. JS creates a visual "tag pill" and stores the tag
+            3. User can remove tags by clicking the X on each pill
+          -->
+          <div class="tag-input-box" id="tagInputBox" aria-label="Add tags">
+            <!-- Tag pills appear here -->
+            <input
+              type="text"
+              class="tag-input"
+              id="tagInput"
+              placeholder="Type a tag and press Enter..."
+              aria-label="Tag input"
+            />
+          </div>
+          <p class="form-hint">Press Enter or comma after each tag. Max 5 tags.</p>
+        </div>
+
+        <!-- Submit Area -->
+        <div class="editor-actions">
+          <a href="index.html" class="btn btn--ghost btn--large">Cancel</a>
+          <button class="btn btn--ghost btn--large" id="saveDraftBtn">💾 Save draft</button>
+          <button class="btn btn--primary btn--large" id="submitPostBtn">Publish post</button>
+        </div>
+
+      </div>
+      <!-- END EDITOR CARD -->
+    </div>
+
+    <!-- ── RIGHT SIDEBAR: Writing Tips ───────────────────── -->
+    <aside class="sidebar sidebar--create" aria-label="Writing tips">
+
+      <div class="sidebar-widget">
+        <h2 class="sidebar-widget__title">✍️ Tips for a great post</h2>
+        <ul class="tips-list">
+          <li class="tips-list__item">
+            <span class="tips-list__icon" aria-hidden="true">🎯</span>
+            <div>
+              <strong>Be specific</strong>
+              <p>Detailed questions get detailed answers.</p>
+            </div>
+          </li>
+          <li class="tips-list__item">
+            <span class="tips-list__icon" aria-hidden="true">🔍</span>
+            <div>
+              <strong>Search first</strong>
+              <p>Your question may already be answered.</p>
+            </div>
+          </li>
+          <li class="tips-list__item">
+            <span class="tips-list__icon" aria-hidden="true">📖</span>
+            <div>
+              <strong>Give context</strong>
+              <p>Tell us what you've already tried.</p>
+            </div>
+          </li>
+          <li class="tips-list__item">
+            <span class="tips-list__icon" aria-hidden="true">🤝</span>
+            <div>
+              <strong>Be respectful</strong>
+              <p>Everyone starts somewhere.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="sidebar-widget">
+        <h2 class="sidebar-widget__title">📋 Community Rules</h2>
+        <ol class="rules-list">
+          <li>Be kind and respectful</li>
+          <li>Share real experience, not guesses</li>
+          <li>No spam or self-promotion</li>
+          <li>Experts must verify their field</li>
+          <li>Help others — pay it forward</li>
+        </ol>
+      </div>
+
+    </aside>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="footer__brand">
+        <span class="footer__logo">⬡ HelpHive</span>
+        <p class="footer__tagline">Help someone today. Be helped tomorrow.</p>
+      </div>
+      <nav class="footer__links" aria-label="Footer navigation">
+        <a href="explore.html">Explore</a>
+        <a href="topic.html">Topics</a>
+      </nav>
+      <p class="footer__copy">© 2025 HelpHive. Made with ❤️ for the community.</p>
+    </div>
+  </footer>
+
+  <div class="toast-container" id="toastContainer" aria-live="assertive" aria-atomic="true"></div>
+
+  <script src="js/app.js"></script>
+  <script src="js/posts.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>

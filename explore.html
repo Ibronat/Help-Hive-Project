@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<!--
+  ============================================================
+  HelpHive — explore.html (EXPLORE / BROWSE TOPICS)
+  ============================================================
+  This page shows all available topics in a colorful grid.
+  Users can search/filter topics and see expert spotlights.
+
+  BEGINNER TIP:
+  The topic grid uses CSS Grid layout.
+  Each topic card gets its color from the topics.json data.
+  JS reads the JSON and builds the cards dynamically.
+  ============================================================
+-->
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HelpHive — Explore Topics</title>
+  <meta name="description" content="Browse all topics on HelpHive and find experts in any field." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/reset.css" />
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="navbar__inner">
+      <a href="index.html" class="navbar__logo">
+        <span class="navbar__logo-icon" aria-hidden="true">⬡</span>
+        <span class="navbar__logo-text">HelpHive</span>
+      </a>
+      <div class="navbar__search">
+        <div class="search-bar" role="search">
+          <span class="search-bar__icon" aria-hidden="true">🔍</span>
+          <input type="text" class="search-bar__input" placeholder="Search HelpHive..." aria-label="Search" id="searchInput" />
+        </div>
+      </div>
+      <div class="navbar__actions">
+        <a href="explore.html" class="navbar__link navbar__link--active">Explore</a>
+        <a href="topic.html" class="navbar__link">Topics</a>
+        <button class="btn btn--icon" id="themeToggle" aria-label="Toggle dark mode"><span id="themeIcon">🌙</span></button>
+        <div class="navbar__auth" id="navAuthButtons">
+          <a href="login.html" class="btn btn--ghost">Sign in</a>
+          <a href="signup.html" class="btn btn--primary">Join free</a>
+        </div>
+        <div class="navbar__user hidden" id="navUserMenu">
+          <a href="create-post.html" class="btn btn--accent">+ Ask</a>
+          <button class="navbar__avatar" id="avatarBtn" aria-label="Open user menu"><span id="avatarLetter">U</span></button>
+          <div class="dropdown hidden" id="userDropdown">
+            <a href="profile.html" class="dropdown__item">My Profile</a>
+            <a href="profile.html#saved" class="dropdown__item">Saved Posts</a>
+            <div class="dropdown__divider"></div>
+            <button class="dropdown__item dropdown__item--danger" id="logoutBtn">Sign out</button>
+          </div>
+        </div>
+        <button class="navbar__hamburger" id="hamburgerBtn" aria-label="Open menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+    <div class="navbar__mobile-menu hidden" id="mobileMenu">
+      <a href="explore.html" class="navbar__mobile-link">Explore</a>
+      <a href="topic.html" class="navbar__mobile-link">Topics</a>
+      <a href="login.html" class="navbar__mobile-link">Sign in</a>
+      <a href="signup.html" class="navbar__mobile-link navbar__mobile-link--accent">Join free</a>
+    </div>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <section class="page-header">
+    <div class="container">
+      <h1 class="page-header__title">Explore Topics</h1>
+      <p class="page-header__sub">Find your community. Every question belongs somewhere.</p>
+
+      <!-- TOPIC SEARCH — filters the grid below in real time -->
+      <div class="explore-search">
+        <div class="search-bar search-bar--large" role="search">
+          <span class="search-bar__icon" aria-hidden="true">🔍</span>
+          <input
+            type="text"
+            class="search-bar__input"
+            id="topicSearchInput"
+            placeholder="Search topics... (e.g. health, coding, finance)"
+            aria-label="Search topics"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <main class="container" style="padding-top: 2rem; padding-bottom: 4rem;">
+
+    <!-- ── ALL TOPICS GRID ────────────────────────────────── -->
+    <section aria-label="All topics">
+      <div class="section-header">
+        <h2 class="section-title">All Topics</h2>
+        <!-- Result count updates as user types in search -->
+        <span class="section-count" id="topicCount">Loading...</span>
+      </div>
+
+      <!--
+        This grid is EMPTY — JavaScript fills it with topic cards.
+        Each card gets background color and icon from topics.json.
+        The "no results" message shows when search finds nothing.
+      -->
+      <div class="topic-grid" id="topicGrid" aria-live="polite">
+        <!-- JS INSERTS TOPIC CARDS HERE -->
+        <!-- Each card looks like:
+          <a href="topic.html?id=X" class="topic-card" style="--card-color: #hexcode">
+            <span class="topic-card__icon">🖥️</span>
+            <h3 class="topic-card__name">Technology</h3>
+            <p class="topic-card__count">1,234 posts</p>
+          </a>
+        -->
+      </div>
+
+      <!-- Shown when search returns no results -->
+      <div class="empty-state hidden" id="topicEmpty">
+        <p class="empty-state__icon" aria-hidden="true">🔎</p>
+        <h3 class="empty-state__title">No topics found</h3>
+        <p class="empty-state__text">Try a different search term.</p>
+      </div>
+    </section>
+
+    <!-- ── EXPERT SPOTLIGHT SECTION ──────────────────────── -->
+    <section class="expert-spotlight" aria-label="Expert spotlight">
+      <div class="section-header">
+        <h2 class="section-title">⭐ Expert Spotlight</h2>
+        <p class="section-sub">Verified professionals sharing real knowledge</p>
+      </div>
+
+      <!--
+        Horizontal scrolling row of expert cards.
+        CSS makes this scroll horizontally on smaller screens.
+        JS fills this from users.json (only users with isExpert: true).
+      -->
+      <div class="expert-scroll" id="expertScroll" role="list" aria-label="Featured experts">
+        <!-- JS INSERTS EXPERT CARDS HERE -->
+        <!-- Each card:
+          <div class="expert-card" role="listitem">
+            <div class="expert-card__avatar">A</div>
+            <span class="badge badge--expert">⭐ Expert</span>
+            <h3 class="expert-card__name">Dr. Amara</h3>
+            <p class="expert-card__field">Medicine · 12yr exp.</p>
+            <p class="expert-card__bio">Short bio text...</p>
+            <a href="profile.html?id=X" class="btn btn--ghost btn--small">View profile</a>
+          </div>
+        -->
+      </div>
+    </section>
+
+    <!-- ── CALL TO ACTION BANNER ──────────────────────────── -->
+    <section class="cta-banner reveal" aria-label="Join the community">
+      <div class="cta-banner__content">
+        <h2 class="cta-banner__title">Have experience to share?</h2>
+        <p class="cta-banner__text">
+          Join HelpHive as an expert and help the next generation solve real problems.
+        </p>
+      </div>
+      <div class="cta-banner__actions">
+        <a href="signup.html" class="btn btn--primary btn--large">Join as Expert</a>
+        <a href="signup.html" class="btn btn--ghost btn--large">Join as Member</a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="footer__brand">
+        <span class="footer__logo">⬡ HelpHive</span>
+        <p class="footer__tagline">Help someone today. Be helped tomorrow.</p>
+      </div>
+      <nav class="footer__links" aria-label="Footer navigation">
+        <a href="explore.html">Explore</a>
+        <a href="topic.html">Topics</a>
+        <a href="login.html">Sign in</a>
+        <a href="signup.html">Join</a>
+      </nav>
+      <p class="footer__copy">© 2025 HelpHive. Made with ❤️ for the community.</p>
+    </div>
+  </footer>
+
+  <div class="toast-container" id="toastContainer" aria-live="assertive" aria-atomic="true"></div>
+
+  <script src="js/app.js"></script>
+  <script src="js/posts.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>

@@ -1,0 +1,436 @@
+/* ============================================================
+   HelpHive — animations.css
+   ============================================================
+   PURPOSE: All @keyframes (animation sequences) and
+   scroll-triggered reveal styles.
+
+   BEGINNER TIP:
+   @keyframes defines WHAT an animation does step by step.
+   from {} = the start (same as 0% {})
+   to {}   = the end   (same as 100% {})
+   You can add in-between steps like 50% {}
+
+   To USE a keyframe, you apply it to an element with:
+   animation: keyframe-name duration timing-function;
+
+   IMPORTANT: These animations require the prefers-reduced-motion
+   media query in variables.css to be respected for accessibility.
+   ============================================================ */
+
+
+/* ══════════════════════════════════════════════════════════════
+   1. FADE & ENTRANCE ANIMATIONS
+   Used for page load, cards appearing, modals opening.
+══════════════════════════════════════════════════════════════ */
+
+/* Simple fade in — opacity 0 → 1 */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Fade in while moving UP — most common entrance animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px); /* Start 20px below final position */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);    /* End at normal position */
+  }
+}
+
+/* Fade in while moving DOWN (for dropdowns) */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Fade in while scaling up slightly (for modals) */
+@keyframes modalSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   2. SCROLL REVEAL ANIMATION
+   Elements with class="reveal" are invisible by default.
+   JavaScript adds class="reveal--visible" when the user
+   scrolls to them, triggering the animation.
+══════════════════════════════════════════════════════════════ */
+
+/* Base state — hidden, slightly below position */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+
+  /* The transition happens when JS adds .reveal--visible */
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s ease;
+}
+
+/* Visible state — JS adds this class */
+.reveal--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger delay for groups of items (applied by JS) */
+.reveal--delay-1 { transition-delay: 0.1s; }
+.reveal--delay-2 { transition-delay: 0.2s; }
+.reveal--delay-3 { transition-delay: 0.3s; }
+.reveal--delay-4 { transition-delay: 0.4s; }
+
+
+/* ══════════════════════════════════════════════════════════════
+   3. SKELETON SHIMMER ANIMATION
+   The shimmer that moves across skeleton loading placeholders.
+   This creates the "loading" shimmer effect on gray boxes.
+══════════════════════════════════════════════════════════════ */
+@keyframes skeletonShimmer {
+  0%   { transform: translateX(0%); }
+  100% { transform: translateX(50%); }
+  /* Only moves halfway because the gradient is 200% wide —
+     this creates a smooth infinite loop */
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   4. VOTE ANIMATIONS
+   When a user votes, the count number "pops" with a bounce.
+   The vote button scales up when activated.
+══════════════════════════════════════════════════════════════ */
+
+/* The bouncy pop on the vote count number */
+@keyframes votePopPulse {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.35); } /* Overshoot — gets big */
+  70%  { transform: scale(0.90); } /* Then squish */
+  100% { transform: scale(1); }    /* Back to normal */
+}
+
+/* Used on the vote count element when vote changes */
+.vote-count--animating {
+  animation: votePopPulse 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+/* Number count-up animation (for stats on hero/profile) */
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   5. EXPERT BADGE GLOW
+   A subtle gold pulsing glow on expert badges.
+   This draws attention without being distracting.
+══════════════════════════════════════════════════════════════ */
+@keyframes expertGlow {
+  /* The glow fades in and out smoothly */
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(245, 158, 11, 0);
+    border-color: var(--color-expert);
+  }
+  50% {
+    box-shadow: 0 0 10px 2px rgba(245, 158, 11, 0.40);
+    border-color: #F59E0B;
+  }
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   6. FLOATING STAT BADGES (hero section)
+   The three stat badges gently float up and down.
+══════════════════════════════════════════════════════════════ */
+@keyframes floatBadge {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px); /* Float up 8px then back down */
+  }
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   7. TOAST SLIDE ANIMATIONS
+   Toast notifications slide in from the right and slide out.
+══════════════════════════════════════════════════════════════ */
+@keyframes toastSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(100%) scale(0.9); /* Start off-screen to the right */
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes toastSlideOut {
+  from {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(100%) scale(0.9); /* Slide back off-screen */
+  }
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   8. TAG POP (create-post.html)
+   When a tag pill is added to the tag input, it pops in.
+══════════════════════════════════════════════════════════════ */
+@keyframes tagPop {
+  0%   { opacity: 0; transform: scale(0.5); }
+  70%  { transform: scale(1.1); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   9. LOGO ICON SPIN
+   The ⬡ logo icon has a spinning animation on hover.
+   This is handled by CSS hover, not JavaScript.
+   (See components.css .navbar__logo:hover .navbar__logo-icon)
+══════════════════════════════════════════════════════════════ */
+
+/* No keyframe needed — handled by transform: rotate() in components.css */
+
+
+/* ══════════════════════════════════════════════════════════════
+   10. PAGE LOAD SEQUENCE
+   Elements on the page appear one after another on load.
+   Each key element gets a class like .load-1, .load-2, etc.
+   JavaScript adds the class "page-loaded" to <body>,
+   which triggers these CSS transitions.
+══════════════════════════════════════════════════════════════ */
+
+/* Before load — everything is slightly transparent and shifted */
+.navbar {
+  animation: fadeInDown 0.4s ease both;
+}
+
+.hero__content {
+  animation: fadeInUp 0.6s ease 0.1s both;
+  /* 0.6s duration, ease timing, 0.1s DELAY, run once and keep end state */
+}
+
+.hero__stats {
+  animation: fadeInUp 0.6s ease 0.3s both;
+}
+
+.feed__tabs {
+  animation: fadeInUp 0.5s ease 0.15s both;
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   11. BUTTON RIPPLE EFFECT
+   A "ripple" wave expands from the click point on buttons.
+   This is a CSS + JS effect: JS positions the .ripple element,
+   CSS animates it.
+══════════════════════════════════════════════════════════════ */
+
+/* Buttons need position: relative to contain the ripple */
+.btn {
+  position: relative;
+  overflow: hidden; /* Clip the ripple inside the button */
+}
+
+/* The ripple circle (created and removed by JavaScript) */
+.ripple {
+  position: absolute;
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.30);
+  transform: scale(0);
+  pointer-events: none; /* Clicks go through the ripple */
+  animation: rippleExpand 0.5s linear both;
+}
+
+@keyframes rippleExpand {
+  from {
+    transform: scale(0);
+    opacity: 1;
+  }
+  to {
+    transform: scale(4);    /* Grow to 4x size */
+    opacity: 0;             /* Fade out as it expands */
+  }
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   12. HAMBURGER → X TRANSITION
+   The 3 hamburger lines animate into an X when menu is open.
+   JavaScript adds class="open" to the hamburger button.
+══════════════════════════════════════════════════════════════ */
+
+/* When hamburger has .open class — animate to X shape */
+.navbar__hamburger.open span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);  /* Top line rotates down */
+}
+
+.navbar__hamburger.open span:nth-child(2) {
+  opacity: 0;              /* Middle line disappears */
+  transform: scaleX(0);
+}
+
+.navbar__hamburger.open span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg); /* Bottom line rotates up */
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   13. MOBILE MENU SLIDE IN
+   The mobile menu slides down from the navbar.
+══════════════════════════════════════════════════════════════ */
+@keyframes mobileMenuIn {
+  from {
+    opacity: 0;
+    max-height: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    max-height: 500px;
+    transform: translateY(0);
+  }
+}
+
+/* The mobile menu, when visible (JS removes 'hidden') */
+.navbar__mobile-menu:not(.hidden) {
+  animation: mobileMenuIn var(--transition-slow) ease both;
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   14. CARD ENTRANCE — POST LIST
+   Post cards animate in one by one when the feed loads.
+   JavaScript adds this class to each card with a delay.
+══════════════════════════════════════════════════════════════ */
+.post-card {
+  animation: fadeInUp 0.4s ease both;
+}
+
+/* Each card in the list gets a progressively longer delay */
+/* JavaScript sets: element.style.animationDelay = index * 60 + 'ms' */
+
+
+/* ══════════════════════════════════════════════════════════════
+   15. TOPIC CARD PULSE
+   Topic cards in the explore grid have a subtle ring pulse
+   effect when hovered — draws attention to the active card.
+══════════════════════════════════════════════════════════════ */
+@keyframes topicRingPulse {
+  0%   { box-shadow: 0 0 0 0 rgba(108, 71, 255, 0.20); }
+  100% { box-shadow: 0 0 0 12px rgba(108, 71, 255, 0); }
+}
+
+.topic-card:hover {
+  animation: topicRingPulse 0.5s ease both;
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   16. NAVBAR SCROLL SHADOW
+   When the user scrolls down, the navbar gets a deeper shadow.
+   JavaScript adds class="scrolled" to the navbar element.
+══════════════════════════════════════════════════════════════ */
+.navbar--scrolled {
+  box-shadow: var(--shadow-md);
+}
+
+/* Smooth shadow transition (the box-shadow transitions) */
+.navbar {
+  transition:
+    background var(--transition-base),
+    border-color var(--transition-base),
+    box-shadow var(--transition-base);
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   17. FORM INPUT FOCUS ANIMATION
+   A colored bar slides in under focused inputs.
+   This is extra polish on top of the border-color change.
+══════════════════════════════════════════════════════════════ */
+.form-input,
+.editor-title-input,
+.reply-box__input,
+.editor-textarea {
+  /* Already have transition in components.css — these
+     animations reinforce the focus feeling */
+}
+
+@keyframes inputFocusBar {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   18. SEARCH BAR EXPAND
+   On mobile or when focused, the search bar subtly expands.
+══════════════════════════════════════════════════════════════ */
+@keyframes searchExpand {
+  from { transform: scaleX(0.98); }
+  to   { transform: scaleX(1.00); }
+}
+
+.search-bar:focus-within {
+  animation: searchExpand 0.2s ease both;
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   19. PROFILE STAT COUNT-UP
+   Profile stats animate upward when the page loads.
+   JavaScript uses animateNumber() to count from 0 to the real value.
+   The CSS just controls the element's entrance.
+══════════════════════════════════════════════════════════════ */
+.profile-stat__number {
+  animation: countUp 0.6s ease 0.3s both;
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   20. DARK MODE TRANSITION
+   When the theme changes, everything transitions smoothly
+   instead of snapping instantly. This is handled globally
+   in variables.css (body transition) but we add specifics here.
+══════════════════════════════════════════════════════════════ */
+
+/* These elements need slightly longer transitions on theme change */
+.post-card,
+.sidebar-widget,
+.auth-card,
+.editor-card,
+.post-detail,
+.comment,
+.modal__box {
+  transition:
+    background var(--transition-base),
+    border-color var(--transition-base),
+    box-shadow var(--transition-base),
+    /* Keep the existing hover transitions too: */
+    transform var(--transition-bounce);
+}
